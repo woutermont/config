@@ -55,6 +55,11 @@ softwareupdate --schedule on
 Print current SIP status with `csrutil status`.
 
 
+# Profile configuration
+
+`profiles install -type configuration -path myprofile.mobileconfig`
+
+
 ## Defaults configuration
 
 The `defaults` commands edits plists for application domains (e.g., `~/Library/Preferences/com.apple.Safari.plist`) or the global domain (i.e., `~/Library/Preferences/.GlobalPreferences.plist`, abbreviated as `NSGlobalDomain` or the `-g` flag). For non-preference files, Apple is transitioning to manual plist editing (e.g., with `/usr/libexec/PlistBuddy -c "Set <:property:path> <value>" <plist/path>`. Expected types can be found with `defaults read-type <domain> <key>`.

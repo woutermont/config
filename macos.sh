@@ -4,12 +4,12 @@ ADMIN="admin"
 USER="termontwouter"
 
 LANG="en"
-REGION="GB"
+REGION="US"
 VALUTA="EUR"
 METRIC="true"
 UNIT="Centimeters"
-TIME_ZONE="Europe/Brussels"
-TIME_SERVER="" # TODO
+TIME_ZONE="Europe/Paris"
+TIME_SERVER="pool.ntp.org"
 
 DEVICE="TP-Link_WT2_991.m"
 
@@ -28,7 +28,8 @@ fi
 
 osascript -e 'tell application "System Preferences" to quit'
 
-set +x -euo pipefail
+set +x
+set -euo pipefail
 
 disable() {
   local SERVS=(
@@ -39,7 +40,7 @@ disable() {
     "gui/$UID_USER/$1"
   )
   for SRV in "${SERVS[@]}"; do
-    if [[ $(launchctl print "$SRV") ]]; then
+    if launchctl print "$SRV" >/dev/null 2>&1; then
       launchctl disable "$SRV"
       launchctl bootout  "$SRV"
     fi
@@ -53,8 +54,8 @@ configure() {
   fi
   local PREFS=(
     "/Library/Preferences/$1"
-    "/Users/Library/Preferences/$ADMIN/$1"
-    "/Users/Library/Preferences/$USER/$1"
+    "/Users/$ADMIN/Library/Preferences/$1"
+    "/Users/$USER/Library/Preferences/$1"
   )
   for PRF in "${PREFS[@]}"; do
     if [[ -f "$PRF.plist" ]]; then
@@ -63,24 +64,73 @@ configure() {
   done
 }
 
-edit() {
-  local SCOPE="$1"; shift
-  if [[ $SCOPE -eq "-g" || $SCOPE -eq "NSGlobalDomain" ]]; then
-    SCOPE=.GlobalPreferences
-  fi
-  local PREFS=(
-    "/Library/Preferences/$1"
-    "/Users/Library/Preferences/$ADMIN/$1"
-    "/Users/Library/Preferences/$USER/$1"
-  )
-  for PRF in "${PREFS[@]}"; do
-    if [[ -f "$PRF.plist" ]]; then
-      /usr/libexec/PlistBuddy "$@" "$PRF"
-    fi
-  done
-}
-
 clear
+
+# /Library/Preferences/Audio/com.apple.audio.DeviceSettings.plist
+# /Library/Preferences/Audio/com.apple.audio.SystemSettings.plist
+# /Library/Preferences/Logging/Subsystems/com.apple.WebBookmarks.plist
+# /Library/Preferences/Logging/Subsystems/com.apple.WebInspector.plist
+# /Library/Preferences/OpenDirectory/Configurations/Contacts.plist
+# /Library/Preferences/OpenDirectory/Configurations/Search.plist
+# /Library/Preferences/OpenDirectory/opendirectoryd.plist
+# /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist
+# /Library/Preferences/SystemConfiguration/com.apple.AutoWake.plist
+# /Library/Preferences/SystemConfiguration/com.apple.Boot.plist
+# /Library/Preferences/SystemConfiguration/com.apple.accounts.exists.plist
+# /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
+# /Library/Preferences/SystemConfiguration/com.apple.nat.plist
+# /Library/Preferences/SystemConfiguration/com.apple.network.eapolclient.configuration.plist
+# /Library/Preferences/SystemConfiguration/com.apple.smb.server.plist
+# /Library/Preferences/SystemConfiguration/com.apple.vmnet.plist
+# /Library/Preferences/SystemConfiguration/preferences-pre-upgrade-new-target.pli
+# /Library/Preferences/SystemConfiguration/preferences-pre-upgrade-source.plist
+# /Library/Preferences/SystemConfiguration/preferences.plist
+# /Library/Preferences/com.apple.AppleFileServer.plist
+# /Library/Preferences/com.apple.AssetCache.plist
+# /Library/Preferences/com.apple.BezelServices.plist
+# /Library/Preferences/com.apple.Bluetooth.plist
+# /Library/Preferences/com.apple.ByteRangeLocking.plist
+# /Library/Preferences/com.apple.FindMyMac.plist
+# /Library/Preferences/com.apple.HIToolbox.plist
+# /Library/Preferences/com.apple.MCX.plist
+# /Library/Preferences/com.apple.PowerManagement.F083DAD1-C5AB-5DA1-AADA-EDF095E95442.plist
+# /Library/Preferences/com.apple.PowerManagement.plist
+# /Library/Preferences/com.apple.SoftwareUpdate.plist
+# /Library/Preferences/com.apple.TextInputMenu.plist
+# /Library/Preferences/com.apple.TimeMachine.plist
+# /Library/Preferences/com.apple.apsd.plist
+# /Library/Preferences/com.apple.biometrickitd.plist
+# /Library/Preferences/com.apple.captive.plist
+# /Library/Preferences/com.apple.commerce.plist
+# /Library/Preferences/com.apple.dock.plist
+# /Library/Preferences/com.apple.driver.AppleIRController.plist
+# /Library/Preferences/com.apple.gridDataServices.plist
+# /Library/Preferences/com.apple.iclouddrive.features.plist
+# /Library/Preferences/com.apple.keyboardtype.plist
+# /Library/Preferences/com.apple.loginwindow.plist
+# /Library/Preferences/com.apple.mdmclient.plist
+# /Library/Preferences/com.apple.networkd.networknomicon.plist
+# /Library/Preferences/com.apple.networkd.plist
+# /Library/Preferences/com.apple.networkd.sysctl.plist
+# /Library/Preferences/com.apple.networkextension.control.plist
+# /Library/Preferences/com.apple.networkextension.necp.plist
+# /Library/Preferences/com.apple.networkextension.plist
+# /Library/Preferences/com.apple.networkextension.uuidcache.plist
+# /Library/Preferences/com.apple.noticeboard.plist
+# /Library/Preferences/com.apple.powerd.charging.plist
+# /Library/Preferences/com.apple.powerlogHelperd.plist
+# /Library/Preferences/com.apple.powerlogd.plist
+# /Library/Preferences/com.apple.security.appsandbox.plist
+# /Library/Preferences/com.apple.security.plist
+# /Library/Preferences/com.apple.security.systemidentities.plist
+# /Library/Preferences/com.apple.systemprefs.plist
+# /Library/Preferences/com.apple.timezone.auto.plist
+# /Library/Preferences/com.apple.updatesettings.plist
+# /Library/Preferences/com.apple.wifi.known-networks.plistno
+# /Library/Preferences/com.apple.windowserver.plist
+# /Library/Preferences/com.microsoft.autoupdate2.plist
+# /Library/Preferences/com.microsoft.teams.plist
+# /Library/Preferences/org.cups.printers.plist
 
 
 ###############################################################################
@@ -93,7 +143,6 @@ sysadminctl -secureTokenOn $USER
 sysadminctl -secureTokenStatus $USER
 
 # remove guest/admin from login screen, and disable automatic login
-defaults delete com.apple.loginwindow autoLoginUser
 fdesetup remove -user $ADMIN
 fdesetup remove -user Guest
 rm /etc/kcpassword
@@ -132,7 +181,6 @@ configure -g AppleMetricUnits -bool "$METRIC"
 configure -g AppleMeasurementUnits -string "$UNIT"
 
 # set host info and display it when clicking on the login clock
-configure com.apple.loginwindow AdminHostInfo HostName
 defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$DEVICE"
 scutil --set ComputerName $COMPUTER_NAME
 scutil --set LocalHostName $LOCAL_NAME
@@ -143,49 +191,8 @@ scutil --set HostName $HOST_NAME
 # Session management
 ###############################################################################
 
-# Turn off password hints
-configure com.apple.loginwindow RetriesUntilHint -int 0
-
-# Save app state on logout to restore on login
-configure com.apple.loginwindow TALLogoutSavesState -bool true
-
-# Hide the "Other..." option on login
-configure com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool false
-
-# Remove the list of users from the login screen
-configure com.apple.loginwindow SHOWFULLNAME -int 1
-
-# Hide language menu in the top right corner of the boot screen
-configure com.apple.loginwindow showInputMenu -bool false
-
-# Disable console access on login
-configure com.apple.loginwindow DisableConsoleAccess -bool true
-
-# disable guest login
-configure com.apple.loginwindow guestEnabled -bool false
 configure com.apple.AppleFileServer guestAccess -bool false
 configure com.apple.smb.server AllowGuestAccess -bool false
-
-
-###############################################################################
-# Updates
-###############################################################################
-
-# Enable the automatic update check, with daily frequency
-configure com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
-configure com.apple.SoftwareUpdate ScheduleFrequency -int 1
-
-# Download and install system data and security updates
-configure com.apple.SoftwareUpdate AutomaticDownload -int 1
-configure com.apple.SoftwareUpdate CriticalUpdateInstall -int 1
-configure com.apple.SoftwareUpdate ConfigDataInstall -int 1
-
-# Download and install app updates
-configure com.apple.commerce.plist AutoUpdateRestartRequired -bool true
-configure com.apple.commerce.plist AutoUpdate -bool true
-
-# Keep indicator of available updates on Settings icon
-configure com.apple.systempreferences AttentionPrefBundleIDs 1
 
 
 ###############################################################################
@@ -233,21 +240,10 @@ configure -g PMPrintingExpandedStateForPrint2 -bool true
 # Automatically quit printer app once the print jobs complete
 configure com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-# Prevent any action when inserting a cd/dvd (blank or not, any content)
-configure com.apple.digihub com.apple.digihub.blank.cd.appeared -dict action -int 1
-configure com.apple.digihub com.apple.digihub.blank.dvd.appeared -dict action -int 1
-configure com.apple.digihub com.apple.digihub.cd.music.appeared -dict action -int 1
-configure com.apple.digihub com.apple.digihub.cd.picture.appeared -dict action -int 1
-configure com.apple.digihub com.apple.digihub.dvd.video.appeared -dict action -int 1
-
 # Prevent Photos from opening automatically when devices are plugged in
 configure com.apple.ImageCapture disableHotPlug -bool true
 
-# Save screenshots to the desktop, as PNGs, without shadow, and show 30s thumb
-# (options: BMP, GIF, JPG, PDF, TIFF)
-configure com.apple.screencapture type -string png
-configure com.apple.screencapture disable-shadow -bool true
-configure com.apple.screencapture location -string "${HOME}/Desktop"
+# Show 30s thumbnails
 configure com.apple.screencaptureui thumbnailExpiration -float 30
 
 # Set Help Viewer windows to non-floating mode
@@ -256,16 +252,10 @@ configure com.apple.helpviewer DevMode -bool true
 # Disable the crash reporter
 configure com.apple.CrashReporter DialogType -string none
 
-# Disable the “Are you sure you want to open this application?” dialog
-configure com.apple.LaunchServices LSQuarantine -bool false
-
 
 ###############################################################################
 # Text & Input
 ###############################################################################
-
-# Fix for ancient UTF-8 bug in QuickLook
-echo "0x08000100:0" > ~/.CFUserTextEncoding
 
 # Display ASCII control characters using caret notation in standard text views
 configure -g NSTextShowsControlCharacters -bool true
@@ -277,14 +267,9 @@ configure -g NSAutomaticPeriodSubstitutionEnabled -bool false
 configure -g NSAutomaticQuoteSubstitutionEnabled -bool false
 configure -g NSAutomaticSpellingCorrectionEnabled -bool false
 
-# Use plain text mode with UTF-8 in TextEdit
-configure com.apple.TextEdit RichText -int 0
-configure com.apple.TextEdit PlainTextEncoding -int 4
-configure com.apple.TextEdit PlainTextEncodingForWrite -int 4
-
 # Use Secure Keyboard Entry, with UTF-8, and no line marks, in Terminal
-configure com.apple.terminal SecureKeyboardEntry -bool true
-configure com.apple.terminal StringEncodings -array 4
+configure com.apple.Terminal SecureKeyboardEntry -bool true
+configure com.apple.Terminal StringEncodings -array 4
 configure com.apple.Terminal ShowLineMarks -int 0
 
 
@@ -296,7 +281,7 @@ configure com.apple.Terminal ShowLineMarks -int 0
 configure -g com.apple.mouse.scaling 3
 
 # Sets the bluetooth & multi-touch mouse to two-button mode
-configure com.apple.AppleMultitouchMouse.plist MouseButtonMode -string TwoButton
+configure com.apple.AppleMultitouchMouse MouseButtonMode -string TwoButton
 configure com.apple.driver.AppleBluetoothMultitouch.mouse MouseButtonMode -string TwoButton
 
 # Sets the trackpad speed to 3
@@ -357,13 +342,6 @@ pmset -a hibernatemode 25
 pmset -a womp 0
 pmset -a ring 0
 
-# Disable Resume system-wide
-configure com.apple.systempreferences NSQuitAlwaysKeepsWindows -bool false
-
-# Require password immediately after sleep or screen saver begins
-configure com.apple.screensaver askForPassword -int 1
-configure com.apple.screensaver askForPasswordDelay -int 0
-
 
 ###############################################################################
 # Finder
@@ -380,59 +358,6 @@ configure -g com.apple.springing.delay -float 0.001
 
 # Show all file extensions
 configure -g AppleShowAllExtensions -bool true
-
-# Show hidden files
-configure com.apple.Finder AppleShowAllFiles -bool true
-
-# Disable the warning when changing a file extension
-configure com.apple.Finder FXEnableExtensionChangeWarning -bool false
-
-# Expand the General, Open with, and Sharing & Permissions info panes
-configure com.apple.Finder FXInfoPanesExpanded -dict \
-  General -bool true \
-  OpenWith -bool true \
-  Privileges -bool true
-
-# Set default view style to list
-# Codes are: `icnv`, `clmv`, `Flwv`, `Nlsv`)
-configure com.apple.Finder FXPreferredViewStyle -string Nlsv
-
-# Set default search location to current folder
-# Codes: `SCcf`, ... ?
-configure com.apple.Finder FXDefaultSearchScope -string SCcf
-
-# Set default location for new Finder to Home
-# Codes are: `PfDe`, `PfHm`, `PfLo`
-configure com.apple.Finder NewWindowTarget -string PfHm
-configure com.apple.Finder NewWindowTargetPath -string "file://${HOME}/"
-
-# Disable Finder animations
-configure com.apple.Finder DisableAllAnimations -bool true
-
-# Show status bar & path bar
-configure com.apple.Finder ShowStatusBar -bool true
-configure com.apple.Finder ShowPathbar -bool true
-
-# Display full POSIX path as window title
-configure com.apple.Finder _FXShowPosixPathInTitle -bool true
-
-# Keep folders on top when sorting by name
-configure com.apple.Finder _FXSortFoldersFirst -bool true
-
-# Disable the warning before emptying the Trash
-configure com.apple.Finder WarnOnEmptyTrash -bool false
-
-# Allow quitting Finder with ⌘ + Q
-configure com.apple.Finder QuitMenuItem -bool true
-
-# Show mounted paths on the desktop
-configure com.apple.Finder ShowExternalHardDrivesOnDesktop -bool true
-configure com.apple.Finder ShowHardDrivesOnDesktop -bool true
-configure com.apple.Finder ShowMountedServersOnDesktop -bool true
-configure com.apple.Finder ShowRemovableMediaOnDesktop -bool true
-
-# Automatically open a new Finder window when a volume is mounted
-configure com.apple.Finder OpenWindowForNewRemovableDisk -bool true
 configure com.apple.frameworks.diskimages auto-open-ro-root -bool true
 configure com.apple.frameworks.diskimages auto-open-rw-root -bool true
 
@@ -445,185 +370,22 @@ configure com.apple.frameworks.diskimages auto-open-rw-root -bool true
 configure com.apple.desktopservices DSDontWriteUSBStores -bool true
 configure com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-# In icon views:
-# - Increase icon size
-# - Increase grid spacing
-# - Enable snap-to-grid
-# - Show item info to the right of icons
-edit com.apple.Finder \
-  -c "Set :DesktopViewSettings:IconViewSettings:showItemInfo true" \
-  -c "Set :FK_StandardViewSettings:IconViewSettings:showItemInfo true" \
-  -c "Set :StandardViewSettings:IconViewSettings:showItemInfo true" \
-  -c "Set :DesktopViewSettings:IconViewSettings:labelOnBottom false" \
-  -c "Set :DesktopViewSettings:IconViewSettings:arrangeBy grid" \
-  -c "Set :FK_StandardViewSettings:IconViewSettings:arrangeBy grid" \
-  -c "Set :StandardViewSettings:IconViewSettings:arrangeBy grid" \
-  -c "Set :DesktopViewSettings:IconViewSettings:gridSpacing 100" \
-  -c "Set :FK_StandardViewSettings:IconViewSettings:gridSpacing 100" \
-  -c "Set :StandardViewSettings:IconViewSettings:gridSpacing 100" \
-  -c "Set :DesktopViewSettings:IconViewSettings:iconSize 80" \
-  -c "Set :FK_StandardViewSettings:IconViewSettings:iconSize 80" \
-  -c "Set :StandardViewSettings:IconViewSettings:iconSize 80"
-
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
 ###############################################################################
 
-# Wipe all (default) app icons from the Dock
-configure com.apple.dock persistent-apps -array
-
-# Show only open applications in the Dock
-configure com.apple.dock static-only -bool true
-
-# Disable highlight hover effect for the grid view of a dock stack
-configure com.apple.dock mouse-over-hilite-stack -bool false
-
-# Set the icon size of Dock items to 24 pixels
-configure com.apple.dock tilesize -int 24
-
-# Minimize windows into their application’s icon
-configure com.apple.dock minimize-to-application -bool true
-
-# Enable spring loading for all Dock items
-configure com.apple.dock enable-spring-load-actions-on-all-items -bool true
-
-# Disable indicator lights for open applications in the Dock
-configure com.apple.dock show-process-indicators -bool false
-
-# Disable Dashboard, and don't show it as a Space
+# Disable Dashboard
 configure com.apple.dashboard mcx-disabled -bool true
-configure com.apple.dock dashboard-in-overlay -bool true
-
-# Don’t automatically rearrange Spaces based on most recent use
-configure com.apple.dock mru-spaces -bool false
-
-# Remove Dock animations
-configure com.apple.dock autohide-delay -float 0.001
-configure com.apple.dock autohide-time-modifier -float 0.001
-configure com.apple.dock expose-animation-duration -float 0.001
-configure com.apple.dock launchanim -bool false
-configure com.apple.dock mineffect -string none
-
-# Automatically hide and show the Dock
-configure com.apple.dock autohide -bool true
-
-# Make Dock icons of hidden applications translucent
-configure com.apple.dock showhidden -bool true
-
-# Don’t show recent applications in Dock
-configure com.apple.dock show-recents -bool false
-
-# Disable "hot corners"
-configure com.apple.dock wvous-tl-corner -int 0
-configure com.apple.dock wvous-tl-modifier -int 0
-configure com.apple.dock wvous-tr-corner -int 0
-configure com.apple.dock wvous-tr-modifier -int 0
-configure com.apple.dock wvous-bl-corner -int 0
-configure com.apple.dock wvous-bl-modifier -int 0
-configure com.apple.dock wvous-br-corner -int 0
-configure com.apple.dock wvous-br-modifier -int 0
-
-
-###############################################################################
-# Safari & WebKit                                                             #
-###############################################################################
-
-# Enable “Do Not Track”
-# configure com.apple.Safari SendDoNotTrackHTTPHeader -bool true
-
-# Don’t send search queries to Apple
-configure com.apple.Safari UniversalSearchEnabled -bool false
-configure com.apple.Safari SuppressSearchSuggestions -bool true
-
-# Warn about fraudulent websites
-configure com.apple.Safari WarnAboutFraudulentWebsites -bool true
-
-# Prevent Safari from opening ‘safe’ files automatically after downloading
-configure com.apple.Safari AutoOpenSafeDownloads -bool false
-
-# Disable Safari’s thumbnail cache for History and Top Sites
-configure com.apple.Safari DebugSnapshotsUpdatePolicy -int 2
-
-# Update extensions automatically
-configure com.apple.Safari InstallExtensionUpdatesAutomatically -bool true
-
-# Disable plug-ins
-configure com.apple.Safari WebKitPluginsEnabled -bool false
-configure com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled -bool false
-
-# Disable Java
-configure com.apple.Safari WebKitJavaEnabled -bool false
-configure com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
-configure com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
-
-# Block pop-up windows
-configure com.apple.Safari WebKitJavaScriptCanOpenWindowsAutomatically -bool false
-configure com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically -bool false
-
-# Disable AutoFill
-configure com.apple.Safari AutoFillFromAddressBook -bool false
-configure com.apple.Safari AutoFillPasswords -bool false
-configure com.apple.Safari AutoFillCreditCardData -bool false
-configure com.apple.Safari AutoFillMiscellaneousForms -bool false
-
-# Disable auto-playing video
-configure com.apple.Safari WebKitMediaPlaybackAllowsInline -bool false
-configure com.apple.SafariTechnologyPreview WebKitMediaPlaybackAllowsInline -bool false
-configure com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
-configure com.apple.SafariTechnologyPreview com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback -bool false
 
 
 ###############################################################################
 # Spotlight                                                                   #
 ###############################################################################
 
-# Hide Spotlight tray-icon (and subsequent helper)
-chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search
-
-# Disable Spotlight for any volume (here: root)
-mdutil -i off /
-
-# Disable Spotlight indexing for any (not yet indexed) volume that gets mounted
-# configure /.Spotlight-V100/VolumeConfiguration Exclusions -array "/Volumes"
-
-# Change indexing order and disable some search results
-# configure com.apple.spotlight orderedItems -array \
-# 	'{"enabled" = 1;"name" = "APPLICATIONS";}' \
-# 	'{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-# 	'{"enabled" = 1;"name" = "DIRECTORIES";}' \
-# 	'{"enabled" = 1;"name" = "PDF";}' \
-# 	'{"enabled" = 1;"name" = "FONTS";}' \
-# 	'{"enabled" = 0;"name" = "DOCUMENTS";}' \
-# 	'{"enabled" = 0;"name" = "MESSAGES";}' \
-# 	'{"enabled" = 0;"name" = "CONTACT";}' \
-# 	'{"enabled" = 0;"name" = "EVENT_TODO";}' \
-# 	'{"enabled" = 0;"name" = "IMAGES";}' \
-# 	'{"enabled" = 0;"name" = "BOOKMARKS";}' \
-# 	'{"enabled" = 0;"name" = "MUSIC";}' \
-# 	'{"enabled" = 0;"name" = "MOVIES";}' \
-# 	'{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-# 	'{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-# 	'{"enabled" = 0;"name" = "SOURCE";}' \
-# 	'{"enabled" = 0;"name" = "MENU_DEFINITION";}' \
-# 	'{"enabled" = 0;"name" = "MENU_OTHER";}' \
-# 	'{"enabled" = 0;"name" = "MENU_CONVERSION";}' \
-# 	'{"enabled" = 0;"name" = "MENU_EXPRESSION";}' \
-# 	'{"enabled" = 0;"name" = "MENU_WEBSEARCH";}' \
-# 	'{"enabled" = 0;"name" = "MENU_SPOTLIGHT_SUGGESTIONS";}'
-
-# Load new settings, enable indexing for root, and rebuild index from scratch
-killall mds > /dev/null 2>&1
-# mdutil -i on / > /dev/null
+# Enable indexing for root, and rebuild index from scratch
+mdutil -i on / > /dev/null
 mdutil -E / > /dev/null
-
-
-###############################################################################
-# Siri
-###############################################################################
-
-# Disable siri
-configure com.apple.assistant.support "Assistant Enabled" -int 0
 
 
 ###############################################################################
@@ -635,9 +397,6 @@ configure com.apple.windowserver DisplayResolutionEnabled -bool true
 
 # Enable subpixel font rendering on non-Apple LCDs
 configure -g AppleFontSmoothing -int 1
-
-# Increase sound quality for Bluetooth headphones/headsets
-configure com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
 
 
 ###############################################################################
@@ -663,29 +422,12 @@ configure com.apple.ActivityMonitor SortDirection -int 0
 # Storage
 ###############################################################################
 
-# Save to disk (not to iCloud) by default
-configure -g NSDocumentSaveNewDocumentsToCloud -bool false
-
-# Turn off the icloud login prompt
-configure com.apple.SetupAssistant DidSeeCloudSetup -bool true
-configure com.apple.SetupAssistant GestureMovieSeen -string none
-configure com.apple.SetupAssistant LastSeenCloudProductVersion -string "26.2"
-
 # Enable the debug menu in Disk Utility
 configure com.apple.DiskUtility DUDebugMenuEnabled -bool true
 configure com.apple.DiskUtility advanced-image-options -bool true
 
-# Prevent Time Machine from prompting to use new hard drives as backup volume
-configure com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
-
-# Disable local Time Machine backups
-tmutil disablelocal
-
 # Disable Time Machine
 tmutil disable
-
-# Keep low priority I/O throttled
-sysctl debug.lowpri_throttle_enabled=1
 
 # Restrict the system and userwide umask
 # launchctl config system umask 022 # default
@@ -698,29 +440,6 @@ sysctl debug.lowpri_throttle_enabled=1
 ###############################################################################
 # Network
 ###############################################################################
-
-# Enable firewall (block all; stealth mode; no whitelisting)
-/usr/libexec/ApplicationFirewall/socketfilterfw --setblockall on
-/usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-/usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
-/usr/libexec/ApplicationFirewall/socketfilterfw --setloggingmode on
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
-/usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
-
-# Stop the sending of diagnostic info to apple
-defaults write  "/Library/Application Support/CrashReporter/DiagnosticMessagesHistory" AutoSubmit -bool false
-
-# Enable AirDrop over Ethernet and on unsupported Macs running Lion
-# configure com.apple.NetworkBrowser BrowseAllInterfaces -bool true
-
-# Enable Mail Privacy Protection
-configure com.apple.mail PrivacyProtectionEnabled -bool true
-
-# Prevent bonjour service advertadvertisements broadcasting
-configure com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool true
-
-# Disable iCloud Private Relay
-configure com.apple.networkextension.plist PrivateRelayEnabled -bool false
 
 # Disable infrared reciever
 configure com.apple.driver.AppleIRController DeviceEnabled -bool false
@@ -742,25 +461,19 @@ disable com.apple.AddressBook.AssistantService
 disable com.apple.AddressBook.SourceSync
 disable com.apple.adprivacyd
 disable com.apple.AirPortBaseStationAgent
-disable com.apple.AMP*
 disable com.apple.AMPArtworkAgent
-disable com.apple.ams*
 disable com.apple.amsengagementd
 disable com.apple.amsondevicestoraged
 disable com.apple.analyticsagent
 disable com.apple.ap.adservicesd
 disable com.apple.appleseed.seedusaged
 disable com.apple.appleseed.seedusaged.postinstall
-disable com.apple.appleseed*
 disable com.apple.arkitd
-disable com.apple.ask*
 disable com.apple.assessmentagent
-disable com.apple.AssetCache*
 disable com.apple.assistant_cdmd
 disable com.apple.assistant_service
 disable com.apple.assistantd
 disable com.apple.AssistiveControl
-disable com.apple.avconferenced
 disable com.apple.BiomeAgent
 disable com.apple.biomesyncd
 disable com.apple.bird
@@ -768,25 +481,20 @@ disable com.apple.bookassetd
 disable com.apple.bookdatastored
 disable com.apple.cache_delete
 disable com.apple.calaccessd
-disable com.apple.calendar.*
-disable com.apple.callhistory*
 disable com.apple.callintelligenced
 disable com.apple.cloud
 disable com.apple.cloudphotod
 disable com.apple.cloudsettingssyncagent
 disable com.apple.cmfsyncagent
 disable com.apple.cmio.ContinuityCaptureAgent
-disable com.apple.cmio*
 disable com.apple.CommCenter
 disable com.apple.commerce
 disable com.apple.companiond
-disable com.apple.contacts.*
 disable com.apple.ContextStoreAgent
 disable com.apple.contextstored
 disable com.apple.continuityd
 disable com.apple.diagnosticextensionsd
 disable com.apple.diagnostics_agent
-disable com.apple.diagnostics*
 disable com.apple.diagnosticspushd
 disable com.apple.DictationIM
 disable com.apple.duetexpertd
@@ -802,10 +510,8 @@ disable com.apple.familynotificationd
 disable com.apple.FeatureAccessAgent
 disable com.apple.feedbackd
 disable com.apple.financed
-disable com.apple.findmy*
 disable com.apple.findmylocateagent
 disable com.apple.findmymacmessenger
-disable com.apple.followup*
 disable com.apple.frauddefensed
 disable com.apple.GameCenter
 disable com.apple.gamed
@@ -814,9 +520,6 @@ disable com.apple.GamePolicyAgent
 disable com.apple.gamesaved
 disable com.apple.generativeexperiencesd
 disable com.apple.geoanalyticsd
-disable com.apple.geod
-disable com.apple.geod*
-disable com.apple.geodMachServiceBridge
 disable com.apple.handoffd
 disable com.apple.helpd
 disable com.apple.homed
@@ -824,12 +527,8 @@ disable com.apple.homeenergyd
 disable com.apple.homeeventsd
 disable com.apple.icloud.findmydeviced.findmydevice-user-agent
 disable com.apple.icloud.searchpartyuseragent
-disable com.apple.icloud*
 disable com.apple.icloudmailagent
-disable com.apple.iCloudNotification*
 disable com.apple.idsfoundation.IDSRemoteURLConnectionAgent
-disable com.apple.idsfoundation*
-disable com.apple.im*
 disable com.apple.imagent
 disable com.apple.imautomatichistorydeletionagent
 disable com.apple.imcore.imtransferagent
@@ -837,7 +536,6 @@ disable com.apple.imklaunchagent
 disable com.apple.IMLoggingAgent
 disable com.apple.imtransferagent
 disable com.apple.inputanalyticsd
-disable com.apple.intelligence*
 disable com.apple.intelligencecontextd
 disable com.apple.intelligenceflowd
 disable com.apple.intelligenceplatformd
@@ -846,14 +544,11 @@ disable com.apple.itunecloudd
 disable com.apple.iTunesHelper.launcher
 disable com.apple.java.updateSharing
 disable com.apple.knowledge-agent
-disable com.apple.knowledge*
 disable com.apple.knowledgeconstructiond
 disable com.apple.LinkedNotesUIService
-disable com.apple.location*
 disable com.apple.locationaccessstored
 disable com.apple.lookup.shared
 disable com.apple.macos.studentd
-disable com.apple.Maps.*
 disable com.apple.maps.destinationd
 disable com.apple.Maps.mapspushd
 disable com.apple.Maps.mapssyncd
@@ -888,7 +583,6 @@ disable com.apple.photolibraryd
 disable com.apple.podcasts.PodcastContentService
 disable com.apple.proactived
 disable com.apple.promotedcontentd
-disable com.apple.rapportd
 disable com.apple.RapportUIAgent
 disable com.apple.rcd
 disable com.apple.remindd
@@ -901,7 +595,6 @@ disable com.apple.routined
 disable com.apple.Safari.History
 disable com.apple.Safari.PasswordBreachAgent
 disable com.apple.Safari.SafeBrowsing.Service
-disable com.apple.Safari*
 disable com.apple.SafariBookmarksSyncAgent
 disable com.apple.SafariHistoryServiceAgent
 disable com.apple.SafariLaunchAgent
@@ -909,19 +602,15 @@ disable com.apple.ScreenReaderUIServer
 disable com.apple.ScreenTimeAgent
 disable com.apple.ScreenTimeApp
 disable com.apple.screentimed
-disable com.apple.searchparty*
 disable com.apple.securemessagingagent
-disable com.apple.sharingd
 disable com.apple.shazamd
 disable com.apple.sidecar-display-agent
 disable com.apple.sidecar-hid-relay
 disable com.apple.sidecar-relay
 disable com.apple.sidecar-service
-disable com.apple.sidecar*
 disable com.apple.Siri.agent
 disable com.apple.siri.context.service
 disable com.apple.siri.distributed-evaluation
-disable com.apple.siri*
 disable com.apple.siriactionsd
 disable com.apple.siriinferenced
 disable com.apple.siriknowledged
@@ -931,7 +620,6 @@ disable com.apple.SiriTTSTrainingAgent
 disable com.apple.soagent
 disable com.apple.sociallayerd
 disable com.apple.SocialPushAgent
-disable com.apple.speech.*
 disable com.apple.sportsd
 disable com.apple.Spotlight
 disable com.apple.spotlight.index
@@ -945,7 +633,6 @@ disable com.apple.studentd
 disable com.apple.suggestd
 disable com.apple.Suggestions
 disable com.apple.synapse.contentlinkingd
-disable com.apple.sync*
 disable com.apple.textunderstandingd
 disable com.apple.tipsd
 disable com.apple.triald
@@ -1008,9 +695,66 @@ disable com.apple.afpfs_afpLoad
 
 # Others
 disable com.apple.musicd
-disable com.apple.locationd
 disable com.apple.familycontrols
 disable com.apple.GameController.gamecontrollerd
+disable com.apple.calendar.CalendarAgentBookmarkMigrationService
+disable com.apple.contacts.postersyncd
+disable com.apple.contacts.donation-agent
+disable com.apple.Maps.mapssyncd
+disable com.apple.Maps.mapspushd
+disable com.apple.amsondevicestoraged
+disable com.apple.amsaccountsd
+disable com.apple.amsengagementd
+disable com.apple.applespell
+disable com.apple.appleseed.seedusaged
+disable com.apple.appleaccountd
+disable com.apple.appleidsetupd
+disable com.apple.appleseed.seedusaged.postinstall
+disable com.apple.AssetCache.agent
+disable com.apple.AssetCacheLocatorService
+disable com.apple.callhistoryd
+disable com.apple.CallHistoryPluginHelper
+disable com.apple.callintelligenced
+disable com.apple.CallHistorySyncHelper
+disable com.apple.cmio.LaunchCMIOUserExtensionsAgent
+disable com.apple.cmio.ContinuityCaptureAgent
+disable com.apple.diagnosticextensionsd
+disable com.apple.diagnostics_agent
+disable com.apple.diagnosticspushd
+disable com.apple.DiagnosticsReporter
+disable com.apple.findmymacmessenger
+disable com.apple.findmy.findmylocateagent
+disable com.apple.followupd
+disable com.apple.FollowUpUI
+disable com.apple.icloud.searchpartyuseragent
+disable com.apple.iCloudUserNotificationsd
+disable com.apple.iCloudNotificationAgent
+disable com.apple.icloudmailagent
+disable com.apple.iCloudHelper
+disable com.apple.icloud.findmydeviced.findmydevice-user-agent
+disable com.apple.syncservices.uihandler
+disable com.apple.syncservices.SyncServer
+disable com.apple.syncdefaultsd
+disable com.apple.siri.context.service
+disable com.apple.siriactionsd
+disable com.apple.siriknowledged
+disable com.apple.siriinferenced
+disable com.apple.sirittsd
+disable com.apple.sidecar-relay
+disable com.apple.sidecar-display-agent
+disable com.apple.SafariHistoryServiceAgent
+disable com.apple.SafariBookmarksSyncAgent
+disable com.apple.Safari.PasswordBreachAgent
+disable com.apple.Safari.SafeBrowsing.Service
+disable com.apple.SafariNotificationAgent
+disable com.apple.SafariLaunchAgent
+disable com.apple.Safari.History
+disable com.apple.imdpersistence.IMDPersistenceAgent
+disable com.apple.imklaunchagent
+disable com.apple.imcore.imtransferagent
+disable com.apple.imagent
+disable com.apple.imautomatichistorydeletionagent
+disable com.apple.idsfoundation.IDSRemoteURLConnectionAgent
 
 # =============================================================================
 

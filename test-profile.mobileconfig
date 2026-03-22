@@ -15,6 +15,14 @@
 			<string>62FF264E-3267-4448-BF1E-2EB765886AC5</string>
 			<key>PayloadVersion</key>
 			<integer>1</integer>
+			<key>allowFileSharing</key>
+			<false/>
+			<key>allowCloudBackup</key>
+			<false/>
+			<key>allowSharedStream</key>
+			<false/>
+			<key>allowCloudAccountModification</key>
+			<false/>
 			<key>allowARDRemoteManagementModification</key>
 			<false/>
 			<key>allowAccountModification</key>
@@ -102,6 +110,20 @@
 		</dict>
 		<dict>
 			<key>PayloadDisplayName</key>
+			<string>Apple Mail</string>
+			<key>PayloadIdentifier</key>
+			<string>com.apple.mail.0D22214F-12DA-49EB-BBAA-F055BDB15A57</string>
+			<key>PayloadType</key>
+			<string>com.apple.mail</string>
+			<key>PayloadUUID</key>
+			<string>0D22214F-12DA-49EB-BBAA-F055BDB15A57</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>PrivacyProtectionEnabled</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>PayloadDisplayName</key>
 			<string>Setup Assistant</string>
 			<key>PayloadIdentifier</key>
 			<string>com.apple.SetupAssistant.managed.3514CFCD-D403-4EE3-81D2-8D5C93E16AE3</string>
@@ -161,6 +183,8 @@
 		<dict>
 			<key>DisableAirDrop</key>
 			<true/>
+			<key>BrowseAllInterfaces</key>
+			<false/>
 			<key>PayloadDisplayName</key>
 			<string>AirDrop</string>
 			<key>PayloadIdentifier</key>
@@ -235,6 +259,8 @@
 			<string>827454DD-D19A-4997-90CF-972F2090B307</string>
 			<key>PayloadVersion</key>
 			<integer>1</integer>
+			<key>Assistant Enabled</key>
+			<false/>
 			<key>Search Queries Data Sharing Status</key>
 			<integer>2</integer>
 			<key>Siri Data Sharing Opt-In Status</key>
@@ -354,7 +380,7 @@
 			<key>position-immutable</key>
 			<true/>
 			<key>show-process-indicators</key>
-			<true/>
+			<false/>
 			<key>show-recent-count</key>
 			<integer>0</integer>
 			<key>showindicators-immutable</key>
@@ -365,6 +391,36 @@
 			<true/>
 			<key>static-only</key>
 			<true/>
+			<key>persistent-apps</key>
+			<array></array>
+			<key>mouse-over-hilite-stack</key>
+			<false/>
+			<key>tilesize</key>
+			<integer>24</integer>
+			<key>minimize-to-application</key>
+			<true/>
+			<key>enable-spring-load-actions-on-all-items</key>
+			<true/>
+			<key>dashboard-in-overlay</key>
+			<false/>
+			<key>mru-spaces</key>
+			<false/>
+			<key>autohide-delay</key>
+			<integer>0</integer>
+			<key>autohide-time-modifier</key>
+			<integer>0</integer>
+			<key>expose-animation-duration</key>
+			<integer>0</integer>
+			<key>launchanim</key>
+			<false/>
+			<key>mineffect</key>
+			<string>none</string>
+			<key>autohide</key>
+			<true/>
+			<key>showhidden</key>
+			<true/>
+			<key>show-recents</key>
+			<false/>
 			<key>windowtabbing</key>
 			<string>always</string>
 			<key>windowtabbing-immutable</key>
@@ -511,6 +567,61 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>NewWindowTargetPath</key>
+			<string>file://$HOME/</string>
+			<key>DesktopViewSettings</key>
+			<dict>
+				<key>IconViewSettings</key>
+				<dict>
+					<key>arrangeBy</key>
+					<string>grid</string>
+					<key>gridSpacing</key>
+					<integer>100</integer>
+					<key>iconSize</key>
+					<integer>80</integer>
+					<key>showItemInfo</key>
+					<true/>
+					<key>labelOnBottom</key>
+					<false/>
+				</dict>
+			</dict>
+			<key>FK_StandardViewSettings</key>
+			<dict>
+				<key>IconViewSettings</key>
+				<dict>
+					<key>arrangeBy</key>
+					<string>grid</string>
+					<key>gridSpacing</key>
+					<integer>100</integer>
+					<key>iconSize</key>
+					<integer>80</integer>
+					<key>showItemInfo</key>
+					<true/>
+				</dict>
+			</dict>
+			<key>StandardViewSettings</key>
+			<dict>
+				<key>IconViewSettings</key>
+				<dict>
+					<key>arrangeBy</key>
+					<string>grid</string>
+					<key>gridSpacing</key>
+					<integer>100</integer>
+					<key>iconSize</key>
+					<integer>80</integer>
+					<key>showItemInfo</key>
+					<true/>
+				</dict>
+			</dict>
+			<key>FXInfoPanesExpanded</key>
+			<dict>
+				<key>General</key>
+				<true/>
+				<key>OpenWith</key>
+				<true/>
+				<key>Privileges</key>
+				<true/>
+			</dict>
 			<key>AppleShowAllFiles</key>
 			<true/>
 			<key>FXDefaultSearchScope</key>
@@ -534,15 +645,33 @@
 			<key>PayloadVersion</key>
 			<integer>1</integer>
 			<key>ShowExternalHardDrivesOnDesktop</key>
-			<false/>
+			<true/>
 			<key>ShowRecentTags</key>
 			<false/>
 			<key>ShowRemovableMediaOnDesktop</key>
-			<false/>
+			<true/>
 			<key>ShowSidebar</key>
 			<true/>
 			<key>WarnOnEmptyTrash</key>
 			<false/>
+			<key>DisableAllAnimations</key>
+			<true/>
+			<key>ShowStatusBar</key>
+			<true/>
+			<key>ShowPathbar</key>
+			<true/>
+			<key>_FXShowPosixPathInTitle</key>
+			<true/>
+			<key>_FXSortFoldersFirst</key>
+			<true/>
+			<key>QuitMenuItem</key>
+			<true/>
+			<key>ShowHardDrivesOnDesktop</key>
+			<true/>
+			<key>ShowMountedServersOnDesktop</key>
+			<true/>
+			<key>OpenWindowForNewRemovableDisk</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>AllowSigned</key>
@@ -554,6 +683,10 @@
 			<key>EnableFirewall</key>
 			<true/>
 			<key>EnableStealthMode</key>
+			<true/>
+			<key>EnableLogging</key>
+			<true/>
+			<key>EnableLogging</key>
 			<true/>
 			<key>PayloadDisplayName</key>
 			<string>Firewall</string>
@@ -591,6 +724,18 @@
 			<integer>60</integer>
 		</dict>
 		<dict>
+			<key>autoLoginUser</key>
+			<false/>
+			<key>AdminHostInfo</key>
+			<string>HostName</string>
+			<key>TALLogoutSavesState</key>
+			<true/>
+			<key>SHOWOTHERUSERS_MANAGED</key>
+			<false/>
+			<key>showInputMenu</key>
+			<false/>
+			<key>guestEnabled</key>
+			<false/>
 			<key>AdminMayDisableMCX</key>
 			<false/>
 			<key>DisableConsoleAccess</key>
@@ -735,6 +880,8 @@
 			<integer>1</integer>
 			<key>disable-shadow</key>
 			<true/>
+			<key>type</key>
+			<string>png</string>
 			<key>location</key>
 			<string>~/Pictures/Screenshots</string>
 		</dict>
@@ -752,7 +899,7 @@
 			<key>askForPassword</key>
 			<true/>
 			<key>askForPasswordDelay</key>
-			<integer>10</integer>
+			<integer>1</integer>
 			<key>idleTime</key>
 			<integer>60</integer>
 			<key>loginWindowIdleTime</key>
@@ -813,6 +960,20 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>AutomaticallyInstallMacOSUpdates</key>
+			<true/>
+			<key>AutomaticallyInstallAppUpdates</key>
+			<true/>
+			<key>AutomaticCheckEnabled</key>
+			<true/>
+			<key>ScheduleFrequency</key>
+			<true/>
+			<key>AutomaticDownload</key>
+			<true/>
+			<key>CriticalUpdateInstall</key>
+			<true/>
+			<key>ConfigDataInstall</key>
+			<true/>
 			<key>PayloadDisplayName</key>
 			<string>Software Update</string>
 			<key>PayloadIdentifier</key>
@@ -853,6 +1014,8 @@
 			<string>950230B4-3818-4B24-98BC-8BDB4D0EC5EE</string>
 			<key>PayloadVersion</key>
 			<integer>1</integer>
+			<key>orderedItems</key>
+			<array></array>
 		</dict>
 		<dict>
 			<key>PayloadDisplayName</key>
@@ -865,6 +1028,8 @@
 			<string>C2261AA0-97C3-4A83-9C7D-33B5A6BB5DE6</string>
 			<key>PayloadVersion</key>
 			<integer>1</integer>
+			<key>AutoSubmit</key>
+			<false/>
 		</dict>
 		<dict>
 			<key>AllowUserOverrides</key>
@@ -949,6 +1114,10 @@
 			<integer>1</integer>
 		</dict>
 		<dict>
+			<key>NSQuitAlwaysKeepsWindows</key>
+			<false/>
+			<key>AttentionPrefBundleIDs</key>
+			<integer>1</integer>
 			<key>PayloadDisplayName</key>
 			<string>System Preferences</string>
 			<key>PayloadIdentifier</key>
@@ -1040,6 +1209,8 @@
 			<key>PayloadVersion</key>
 			<integer>1</integer>
 			<key>PlainTextEncodingForWrite</key>
+			<integer>4</integer>
+			<key>PlainTextEncoding</key>
 			<integer>4</integer>
 			<key>RichText</key>
 			<integer>0</integer>
@@ -1139,6 +1310,34 @@
 			<integer>1</integer>
 			<key>WebKitStorageBlockingPolicy</key>
 			<integer>1</integer>
+			<key>DebugSnapshotsUpdatePolicy</key>
+			<integer>2</integer>
+			<key>SendDoNotTrackHTTPHeader</key>
+			<true/>
+			<key>UniversalSearchEnabled</key>
+			<false/>
+			<key>SuppressSearchSuggestions</key>
+			<true/>
+			<key>InstallExtensionUpdatesAutomatically</key>
+			<true/>
+			<key>WebKitPluginsEnabled</key>
+			<false/>
+			<key>WebKitJavaEnabled</key>
+			<false/>
+			<key>WebKitJavaScriptCanOpenWindowsAutomatically</key>
+			<false/>
+			<key>AutoFillPasswords</key>
+			<false/>
+			<key>AutoFillCreditCardData</key>
+			<false/>
+			<key>WebKitMediaPlaybackAllowsInline</key>
+			<false/>
+			<key>com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles</key>
+			<false/>
+			<key>com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaScriptCanOpenWindowsAutomatically</key>
+			<false/>
+			<key>com.apple.Safari.ContentPageGroupIdentifier.WebKit2AllowsInlineMediaPlayback</key>
+			<false/>
 			<key>com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled</key>
 			<false/>
 			<key>com.apple.Safari.ContentPageGroupIdentifier.WebKit2PluginsEnabled</key>
@@ -2384,62 +2583,6 @@
 			<string>com.apple.dt.Xcode</string>
 			<key>PayloadUUID</key>
 			<string>DB0E9574-45DD-4F09-B15D-CA4927BA0EEC</string>
-			<key>PayloadVersion</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>Enable</key>
-			<string>On</string>
-			<key>PayloadIdentifier</key>
-			<string>com.example.filevault</string>
-			<key>PayloadType</key>
-			<string>com.apple.MCX.FileVault2</string>
-			<key>PayloadUUID</key>
-			<string>UUID-FILEVAULT</string>
-			<key>PayloadVersion</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>BlockAllIncoming</key>
-			<true/>
-			<key>EnableFirewall</key>
-			<true/>
-			<key>EnableStealthMode</key>
-			<true/>
-			<key>PayloadIdentifier</key>
-			<string>com.example.firewall</string>
-			<key>PayloadType</key>
-			<string>com.apple.security.firewall</string>
-			<key>PayloadUUID</key>
-			<string>UUID-FIREWALL</string>
-			<key>PayloadVersion</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>AllowIdentifiedDevelopers</key>
-			<true/>
-			<key>EnableAssessment</key>
-			<true/>
-			<key>PayloadIdentifier</key>
-			<string>com.example.gatekeeper</string>
-			<key>PayloadType</key>
-			<string>com.apple.systempolicy.control</string>
-			<key>PayloadUUID</key>
-			<string>UUID-GATEKEEPER</string>
-			<key>PayloadVersion</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>AutomaticallyInstallMacOSUpdates</key>
-			<true/>
-			<key>CriticalUpdateInstall</key>
-			<true/>
-			<key>PayloadIdentifier</key>
-			<string>com.example.softwareupdate</string>
-			<key>PayloadType</key>
-			<string>com.apple.SoftwareUpdate</string>
-			<key>PayloadUUID</key>
-			<string>UUID-SWUPDATE</string>
 			<key>PayloadVersion</key>
 			<integer>1</integer>
 		</dict>
